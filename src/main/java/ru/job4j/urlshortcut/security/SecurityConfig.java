@@ -28,7 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    //Настраивает аутентификацию
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
