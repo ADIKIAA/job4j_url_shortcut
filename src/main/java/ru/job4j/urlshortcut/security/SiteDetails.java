@@ -1,12 +1,14 @@
-package ru.job4j.url_shortcut.security;
+package ru.job4j.urlshortcut.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.job4j.url_shortcut.model.Site;
+import org.springframework.stereotype.Component;
+import ru.job4j.urlshortcut.model.Site;
 
 import java.util.Collection;
 
+@Component
 @AllArgsConstructor
 public class SiteDetails implements UserDetails {
 
@@ -24,7 +26,7 @@ public class SiteDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return site.getUrl();
+        return site.getLogin();
     }
 
     @Override
@@ -46,4 +48,9 @@ public class SiteDetails implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+    public Site getSite() {
+        return this.site;
+    }
+
 }

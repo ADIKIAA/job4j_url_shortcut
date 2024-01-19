@@ -1,4 +1,4 @@
-package ru.job4j.url_shortcut.security;
+package ru.job4j.urlshortcut.security;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
