@@ -1,0 +1,182 @@
+openapi: 3.0.0
+info:
+  title: Сервис - UrlShortCut
+  version: "0.1"
+servers:
+  - url: https://localhost:8080/shortcut/
+paths:
+  /registration:
+    post:
+      tags:
+        - registration
+      summary: Регистрация сайта на сервере
+      requestBody:
+        description: Регистрация сайта на сервере
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/regReq'
+
+      responses:
+        '200':
+          description: Успешная регистрация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/regRes'
+        '400':
+          description: Invalid input
+
+
+  /authorization:
+    post:
+      tags:
+        - authorization
+      summary: Авторизация на сервере
+      requestBody:
+        description: Регистрация сайта на сервере
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth'
+      responses:
+        '200':
+          description: Успешная авторизация
+          headers:
+            Authorization:
+              description: JWT Token
+              schema:
+                type: string
+        '400':
+          description: Invalid input
+
+  /convert:
+    post:
+      tags:
+        - convert
+      summary: Преобразование ссылки
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT Token
+          required: true
+          schema:
+            type: string
+            example: Bearer e25d31c5-db66-4cf2-85d4-8faa8c544ad6
+      requestBody:
+        description: Преобразование ссылки
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/convertReq'
+
+      responses:
+        '200':
+          description: Успешное преобразование
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/convertRes'
+        '400':
+          description: Invalid input
+
+  /redirect/{code}:
+    get:
+      tags:
+        - redirect
+      summary: Переадресация на сайт по коду
+      parameters:
+        - name: code
+          in: path
+          description: Код зарегистрированного сайта
+          required: true
+          schema:
+            type: string
+            example: TuXdpGd
+      responses:
+        '200':
+          description: Успешная переадресация
+          headers:
+            HTTP CODE:
+              description: URL
+              schema:
+                type: string
+                example: 302 REDIRECT https://job4j.ru/profile/exercise/106
+        '400':
+          description: Invalid input
+
+  /statistic:
+    get:
+      tags:
+        - statistic
+      summary: Получение статистики
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stats'
+        '400':
+          description: Invalid input
+    
+components:
+  schemas:
+    regReq:
+      type: object
+      properties:
+        site  :
+          type: string
+          example: job4j.ru
+
+    regRes:
+      type: object
+      properties:
+        registration :
+          type: boolean
+          example: true
+        login :
+          type: string
+          example: AnErutjlFr
+        password :
+          type: string
+          example: HCdhiWwfdZ
+
+    auth:
+      type: object
+      properties:
+        login :
+          type: string
+          example: AnErutjlFr
+        password :
+          type: string
+          example: HCdhiWwfdZ
+
+    convertReq:
+      type: object
+      properties:
+        url  :
+          type: string
+          example: job4j.ru
+
+    convertRes:
+      type: object
+      properties:
+        code  :
+          type: string
+          example: ZRUfdD2
+
+    stat:
+      type: object
+      properties:
+        url :
+          type: string
+          example: https://job4j.ru/profile/exercise/106
+        total :
+          type: integer
+          example: 64
+
+    stats:
+      type: array
+      items:
+        $ref: '#/components/schemas/stat'
