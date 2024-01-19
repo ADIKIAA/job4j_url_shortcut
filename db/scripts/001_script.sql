@@ -10,7 +10,8 @@ create table shortcuts
 (
     id          serial  primary key,
     site_id     int             not null references sites(id),
-    url         varchar unique  not null,
+    url         varchar         not null,
     shortcut    varchar         not null,
-    count       int     default 0
+    count       int     default 0,
+    unique (site_id, url)
 );
